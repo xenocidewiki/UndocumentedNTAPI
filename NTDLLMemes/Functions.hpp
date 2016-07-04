@@ -17,8 +17,8 @@ class NTDLL {
 
 		const int bufferSize		= 1024 * 1024;
 
-		PVOID					buffer;
-		NTSTATUS					status;
+		PVOID				buffer;
+		NTSTATUS			status;
 		PSYSTEM_PINFO			pSystemInfo;
 		PRTL_PROCESS_MODULES		pProcessModules;
 };
