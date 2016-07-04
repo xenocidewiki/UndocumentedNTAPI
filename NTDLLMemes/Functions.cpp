@@ -12,7 +12,7 @@ bool NTDLL::NTSUCCESS(NTSTATUS successStatus)
 {
 	if (!NT_SUCCESS(successStatus)) {
 		std::cout << "NT_SUCCESS failed";
-		free(buffer);
+		delete[] buffer;
 		return FALSE;
 	}
 	else
@@ -21,10 +21,10 @@ bool NTDLL::NTSUCCESS(NTSTATUS successStatus)
 
 bool NTDLL::bufferAlloc(size_t SIZE)
 {
-	buffer = malloc(SIZE);
+	buffer = new PVOID[SIZE];
 	if (!buffer) {
 		std::cout << "Buffer allocation failed";
-		free(buffer);
+		delete[] buffer;
 		return FALSE;
 	}
 	else
@@ -36,7 +36,7 @@ NTSTATUS NTDLL::GetProcessList()
 	if (!bufferAlloc(bufferSize))
 		return STATUS_UNSUCCESSFUL;
 		
-	pSystemInfo = (PSYSTEM_PINFO)buffer;
+	pSystemInfo = reinterpret_cast<PSYSTEM_PINFO>(buffer);
 	status = NtQuerySystemInformation(SystemProcessInformation, pSystemInfo, bufferSize, NULL);
 
 	if (!NTSUCCESS(status))
@@ -45,12 +45,13 @@ NTSTATUS NTDLL::GetProcessList()
 	std::cout << "Process List - by xenocidewiki" << std::endl << std::endl;
 
 	do {
-		printf("Process name: %ws | pID: %d\n", pSystemInfo->ImageName.Buffer, pSystemInfo->ProcessId);
-		pSystemInfo = (PSYSTEM_PINFO)((BYTE*)pSystemInfo + pSystemInfo->NextEntryOffset);
+		printf("Process name: %ws\t | pID: %d\n", pSystemInfo->ImageName.Buffer, pSystemInfo->ProcessId);
+		pSystemInfo = reinterpret_cast<PSYSTEM_PINFO>((reinterpret_cast<BYTE*>(pSystemInfo) + pSystemInfo->NextEntryOffset));
 	} while (pSystemInfo->NextEntryOffset);
 
-	free(buffer);
-	getchar();
+	delete[] buffer;
+	std::cin.get();
+
 	return STATUS_SUCCESS;
 }
 
@@ -59,8 +60,8 @@ NTSTATUS NTDLL::EnumerateDrivers()
 	if (!bufferAlloc(bufferSize))
 		return STATUS_UNSUCCESSFUL;
 
-	pProcessModules = (PRTL_PROCESS_MODULES)buffer;
-	status = NtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)(11), pProcessModules, bufferSize, NULL);
+	pProcessModules = reinterpret_cast<PRTL_PROCESS_MODULES>(buffer);
+	status = NtQuerySystemInformation(static_cast<SYSTEM_INFORMATION_CLASS>(11), pProcessModules, bufferSize, NULL);
 	
 	if (!NTSUCCESS(status))
 		return STATUS_UNSUCCESSFUL;
@@ -71,8 +72,9 @@ NTSTATUS NTDLL::EnumerateDrivers()
 		printf("%d:\t%s\n", i, pProcessModules->Modules[i].FullPathName + pProcessModules->Modules[i].OffsetToFileName);
 	}
 
-	free(buffer);
-	getchar();
+	delete[] buffer;
+	std::cin.get();
+
 	return STATUS_SUCCESS;
 }
 
@@ -94,5 +96,6 @@ void NTDLL::init()
 		std::cout << "No choice availble with that number, please restart and try again";
 		break;
 	}
-	getchar();
+
+	std::cin.get();
 }
