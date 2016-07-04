@@ -1,6 +1,7 @@
 #include "Functions.hpp"
 
-int main() {
+int main() 
+{
 	NTDLL cNtdll;
 	
 	cNtdll.init();
