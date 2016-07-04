@@ -16,7 +16,7 @@ typedef struct _SYSTEM_PROCESS_INFO {
 	LARGE_INTEGER           UserTime;
 	LARGE_INTEGER           KernelTime;
 	UNICODE_STRING          ImageName;
-	ULONG					BasePriority;
+	ULONG			BasePriority;
 	HANDLE                  ProcessId;
 	HANDLE                  InheritedFromProcessId;
 	ULONG                   HandleCount;
@@ -25,16 +25,16 @@ typedef struct _SYSTEM_PROCESS_INFO {
 
 typedef struct _SYSTEM_MOD {
 
-	HANDLE				 Section;
-	PVOID				 MappedBaseAddress;
-	PVOID                ImageBaseAddress;
-	ULONG                ImageSize;
-	ULONG                Flags;
-	USHORT				 LoadOrderIndex;
-	USHORT				 InitOrderIndex;
-	USHORT				 LoadCount;
-	USHORT				 NameOffset;
-	UCHAR				 Name[256];
+	HANDLE			Section;
+	PVOID			MappedBaseAddress;
+	PVOID			ImageBaseAddress;
+	ULONG			ImageSize;
+	ULONG			Flags;
+	USHORT			LoadOrderIndex;
+	USHORT			InitOrderIndex;
+	USHORT			LoadCount;
+	USHORT			NameOffset;
+	UCHAR			Name[256];
 
 } SYSTEM_MOD, *PSYSTEM_MOD;
 
