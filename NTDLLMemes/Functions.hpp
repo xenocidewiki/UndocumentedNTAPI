@@ -1,6 +1,5 @@
 #ifndef NTDLLMEMES_FUNCTIONS_H
 #define NTDLLMEMES_FUNCTIONS_H
-
 #include "structures.hpp"
 
 class NTDLL {
@@ -8,8 +7,8 @@ class NTDLL {
 		NTDLL();
 		~NTDLL();
 
-		int GetProcessList();
-		int EnumerateDrivers();
+		NTSTATUS GetProcessList();
+		NTSTATUS EnumerateDrivers();
 		void init();
 
 	private:
@@ -18,8 +17,8 @@ class NTDLL {
 
 		const int bufferSize		= 1024 * 1024;
 
-		PVOID				buffer;
-		NTSTATUS			status;
+		PVOID					buffer;
+		NTSTATUS					status;
 		PSYSTEM_PINFO			pSystemInfo;
 		PRTL_PROCESS_MODULES		pProcessModules;
 };

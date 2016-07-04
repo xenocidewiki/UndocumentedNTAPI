@@ -31,16 +31,16 @@ bool NTDLL::bufferAlloc(size_t SIZE)
 		return TRUE;
 }
 
-int NTDLL::GetProcessList() 
+NTSTATUS NTDLL::GetProcessList() 
 {
 	if (!bufferAlloc(bufferSize))
-		return 0;
+		return STATUS_UNSUCCESSFUL;
 		
 	pSystemInfo = (PSYSTEM_PINFO)buffer;
 	status = NtQuerySystemInformation(SystemProcessInformation, pSystemInfo, bufferSize, NULL);
 
 	if (!NTSUCCESS(status))
-		return 0;
+		return STATUS_UNSUCCESSFUL;
 
 	std::cout << "Process List - by xenocidewiki" << std::endl << std::endl;
 
@@ -51,19 +51,19 @@ int NTDLL::GetProcessList()
 
 	free(buffer);
 	getchar();
-	return 0;
+	return STATUS_SUCCESS;
 }
 
-int NTDLL::EnumerateDrivers()
+NTSTATUS NTDLL::EnumerateDrivers()
 {
 	if (!bufferAlloc(bufferSize))
-		return 0;
+		return STATUS_UNSUCCESSFUL;
 
 	pProcessModules = (PRTL_PROCESS_MODULES)buffer;
 	status = NtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)(11), pProcessModules, bufferSize, NULL);
 	
 	if (!NTSUCCESS(status))
-		return 0;
+		return STATUS_UNSUCCESSFUL;
 
 	std::cout << "Driver List - by xenocidewiki" << std::endl << std::endl;
 
@@ -73,7 +73,7 @@ int NTDLL::EnumerateDrivers()
 
 	free(buffer);
 	getchar();
-	return 0;
+	return STATUS_SUCCESS;
 }
 
 void NTDLL::init() 
