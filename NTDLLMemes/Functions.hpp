@@ -12,8 +12,8 @@ class NTDLL {
 		void init();
 
 	private:
-		int NTSUCCESS(NTSTATUS successStatus);
-		int bufferAlloc(size_t SIZE);
+		bool NTSUCCESS(NTSTATUS successStatus);
+		bool bufferAlloc(size_t SIZE);
 
 		const int bufferSize		= 1024 * 1024;
 

@@ -8,27 +8,27 @@ NTDLL::~NTDLL()
 {
 }
 
-int NTDLL::NTSUCCESS(NTSTATUS successStatus)
+bool NTDLL::NTSUCCESS(NTSTATUS successStatus)
 {
 	if (!NT_SUCCESS(successStatus)) {
 		std::cout << "NT_SUCCESS failed";
 		free(buffer);
-		return 0;
+		return FALSE;
 	}
 	else
-		return 1;
+		return TRUE;
 }
 
-int NTDLL::bufferAlloc(size_t SIZE)
+bool NTDLL::bufferAlloc(size_t SIZE)
 {
 	buffer = malloc(SIZE);
 	if (!buffer) {
 		std::cout << "Buffer allocation failed";
 		free(buffer);
-		return 0;
+		return FALSE;
 	}
 	else
-		return 1;
+		return TRUE;
 }
 
 int NTDLL::GetProcessList() 
