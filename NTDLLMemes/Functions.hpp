@@ -1,5 +1,6 @@
 #ifndef NTDLLMEMES_FUNCTIONS_H
 #define NTDLLMEMES_FUNCTIONS_H
+
 #include "structures.hpp"
 
 class NTDLL {
