@@ -61,7 +61,7 @@ NTSTATUS NTDLL::EnumerateDrivers()
 		return STATUS_UNSUCCESSFUL;
 
 	pProcessModules = reinterpret_cast<PRTL_PROCESS_MODULES>(buffer);
-	status = NtQuerySystemInformation(static_cast<SYSTEM_INFORMATION_CLASS>(11), pProcessModules, bufferSize, NULL);
+	status = NtQuerySystemInformation(SystemModuleInformation, pProcessModules, bufferSize, NULL); //NOTE: I manually edited winternl.h because I'm lazy. There are many other (better) ways of getting the SystemModuleInformation defined and working without having to modify things like winternl.h
 	
 	if (!NTSUCCESS(status))
 		return STATUS_UNSUCCESSFUL;
